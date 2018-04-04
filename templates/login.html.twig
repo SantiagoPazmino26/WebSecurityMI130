@@ -1,0 +1,20 @@
+{# templates/blog/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+<form method="post" action="{{ path('login_post')}}">
+
+    <label for="email" class="sr-only">Email</label>
+    <input type="email" id="email" name="email" class="form-control" placeholder="Email" required autofocus>
+
+    <label for="password" class="sr-only">Password</label>
+    <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+
+    <input type="hidden" id="token" name="token" value="{{ token }}">
+
+    <button name="Submit" id="submit" class="btn btn-lg btn-primary btn-block">Login</button>
+</form>
+
+{% endblock %}
