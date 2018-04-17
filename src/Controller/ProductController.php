@@ -25,10 +25,10 @@ class ProductController extends Controller
     /**
      * @Route("/get_all", name="product_get_all", methods="GET")
      */
-    public function getLogin(SessionInterface $session)
+    public function getProducts(SessionInterface $session)
     {
         $token = md5(openssl_random_pseudo_bytes(32));
         $session->set('token',$token);
-        return $this->render('login.html.twig', array('token' => $token));
+        return $this->render('index.html.twig', array('token' => $token));
     }
 }

@@ -8,6 +8,7 @@
 
 namespace App\Controller;
 
+use App\Entity\CustomerCart;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -35,32 +36,51 @@ class LoginController extends Controller
     /**
      * @Route("/post", name="login_post", methods="POST")
      */
-    public function postLogin(Request $request,SessionInterface $session){
+    public function postLogin(Request $request, SessionInterface $session)
+    {
 
         $email = $request->request->get('email');
         $password = $request->request->get('password');
         $token = $request->request->get('token');
-        if($session->get('token')!= $token){
+        if ($session->get('token') != $token) {
             throw $this->createNotFoundException(
-                'Incorrect Token: '.$request->request->get('email')
+                'Incorrect Token'
             );
         }
         $customer = $this->getDoctrine()
             ->getRepository(Customer::class)
             ->findOneBy(array('email' => $email));
-        if($customer!=null){
-            if($customer->getPassword()!= $password){
+        if ($customer != null) {
+            if ($customer->getPassword() != $password) {
                 throw $this->createNotFoundException(
                     'Wrong password'
                 );
-            }else{
+            } else {
                 return new Response('Success');
             }
-        }else{
+        } else {
             throw $this->createNotFoundException(
                 'No user found'
             );
         }
-
     }
+
+    /**
+     * @Route("/post", name="logout_post", methods="POST")
+     */
+    public function postLogout(Request $request,SessionInterface $session){
+        $token = $request->request->get('token');
+        if ($session->get('token') != $token) {
+            throw $this->createNotFoundException(
+                'Incorrect Token'
+            );
+        }
+        $session->remove('user');
+        $response = $this->forward('App\Controller\IndexController::getIndex', array(
+        ));
+
+        return $response;
+    }
+
+
 }

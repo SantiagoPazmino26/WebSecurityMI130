@@ -19,7 +19,7 @@ class Products
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $product_name;
+    private $productName;
 
     /**
      * @ORM\Column(type="float")
@@ -44,7 +44,7 @@ class Products
     /**
      * @ORM\Column(type="datetime")
      */
-    private $date_added;
+    private $dateAdded;
 
     public function getId()
     {
@@ -53,12 +53,12 @@ class Products
 
     public function getProductName(): ?string
     {
-        return $this->product_name;
+        return $this->productName;
     }
 
-    public function setProductName(string $product_name): self
+    public function setProductName(string $productName): self
     {
-        $this->product_name = $product_name;
+        $this->productName = $productName;
 
         return $this;
     }
@@ -113,12 +113,12 @@ class Products
 
     public function getDateAdded(): ?\DateTimeInterface
     {
-        return $this->date_added;
+        return $this->dateAdded;
     }
 
-    public function setDateAdded(\DateTimeInterface $date_added): self
+    public function setDateAdded(\DateTimeInterface $dateAdded): self
     {
-        $this->date_added = $date_added;
+        $this->dateAdded = $dateAdded;
 
         return $this;
     }

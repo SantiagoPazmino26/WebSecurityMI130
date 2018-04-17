@@ -6,6 +6,22 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
+        <div id="sidebar">
+            {% block sidebar %}
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="{{ path('basket_index')}}">Basket</a></li>
+                    {% if user %}
+                        <li>
+                            <p>user</p>
+                        </li>
+                        <li><a href="{{ path('logout')}}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{{ path('login_index')}}">Login</a></li>
+                    {% endif %}
+                </ul>
+            {% endblock %}
+        </div>
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>

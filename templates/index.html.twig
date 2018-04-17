@@ -4,5 +4,18 @@
 {% block title %}Index{% endblock %}
 
 {% block body %}
+    <table>
+        <tr>
+            <th>Product Name</th>
+            <th>Product Price</th>
+        </tr>
+        {% for product in products %}
+            <tr>
+                <td>{{ product.productName }}</td>
+                <td>{{ product.price }}</td>
+                <td>Add</td>
+            </tr>
+        {% endfor %}
+    </table>
 
 {% endblock %}
