@@ -1,21 +1,22 @@
-{# templates/blog/index.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Index{% endblock %}
+{% block main_title %}>Latest Products{% endblock %}
 
-{% block body %}
-    <table>
-        <tr>
-            <th>Product Name</th>
-            <th>Product Price</th>
-        </tr>
-        {% for product in products %}
-            <tr>
-                <td>{{ product.productName }}</td>
-                <td>{{ product.price }}</td>
-                <td>Add</td>
-            </tr>
+{% block main %}
+    {% if products|length > 0 %}
+        <div class="row">
+        {% for index,product in products %}
+            {% if index % 3 == 0 and index > 0 %}
+                </div>
+                <div class="row">
+            {% else %}
+
+            {% endif %}
+            <div class="col-sm-6 col-md-4">
+                {% include "_product_thumbnail.html.twig" with {"product": product, "index": index} %}
+            </div>
         {% endfor %}
-    </table>
+        </div>
+    {% endif %}
 
 {% endblock %}

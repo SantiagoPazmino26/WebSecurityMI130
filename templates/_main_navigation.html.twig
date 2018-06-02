@@ -1,0 +1,47 @@
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ path("homepage") }}">WebShop</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                {% block nav_link %}
+                    <li><a href="{{ path("homepage") }}">Home</a></li>
+                    <li><a href="{{ path("homepage") }}">Products</a></li>
+                {% endblock %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if app.session.user is defined %}
+                    {% block nav_user %}
+                        <li><a href="{{ path("login_get") }}">My Profile <span
+                                        class="glyphicon glyphicon-user"></span></a></li>
+                        <li><a href="{{ path("login_get") }}">My Orders <span
+                                        class="glyphicon glyphicon-inbox"></span></a></li>
+                        <li><a href="{{ path("login_get") }}">Cart <span
+                                        class="glyphicon glyphicon-shopping-cart"></span>
+                                {% if app.session.user.products|length > 0 %}
+                                    ({{ app.session.user.products|length }} Products)
+                                {% endif %}
+                            </a></li>
+                        <li><a href="{{ path("logout_post") }}">Logout <span
+                                        class="glyphicon glyphicon-arrow-right"></span></a></li>
+                    {% endblock %}
+                {% else %}
+                    {% block nav_guest %}
+                        <li><a href="{{ path("login_get") }}">Login <span class="glyphicon glyphicon-lock"></span></a>
+                        </li>
+                        <li><a href="{{ path("login_get") }}">Register <span class="glyphicon glyphicon-ok"></span></a>
+                        </li>
+                    {% endblock %}
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

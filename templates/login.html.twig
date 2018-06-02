@@ -1,9 +1,9 @@
 {# templates/blog/index.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Login{% endblock %}
+{% block main_title %}Login{% endblock %}
 
-{% block body %}
+{% block main %}
 <form method="post" action="{{ path('login_post')}}">
 
     <label for="email" class="sr-only">Email</label>
