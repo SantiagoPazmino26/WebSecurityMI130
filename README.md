@@ -42,3 +42,13 @@ Santiago
 Vishnu
 Sai keerthi
 Avez
+
+#Compiling Process
+
+After downloading the source code, first ru composer to download all dependencies of the project.
+--For info on how to install composer see this webpage: https://getcomposer.org/doc/00-intro.md
+
+Run the following composer command to install dependencies
+
+php composer.phar install
+
