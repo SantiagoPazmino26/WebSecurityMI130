@@ -1,0 +1,30 @@
+{% extends '@WebShop/base.html.twig' %}
+
+{% block main_title %}Products in <strong>{{ category }}</strong> category{% endblock %}
+
+{% block main %}
+    {% if products|length > 0 %}
+        <div class="navigation text-center">
+            {{ knp_pagination_render(products) }}
+        </div>
+        <div class="row">
+        {% for index,product in products %}
+            {% if index % 3 == 0 and index > 0 %}
+                </div>
+                <div class="row">
+            {% else %}
+
+            {% endif %}
+            <div class="col-sm-6 col-md-4">
+                {% include "@WebShop/_product_thumbnail.html.twig" with {"product": product, "index": index} %}
+            </div>
+        {% endfor %}
+        </div>
+        <div class="navigation text-center">
+            {{ knp_pagination_render(products) }}
+        </div>
+    {% else %}
+        <p>Sorry, no products yet. :(</p>
+    {% endif %}
+{% endblock %}
+

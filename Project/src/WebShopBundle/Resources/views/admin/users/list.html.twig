@@ -1,0 +1,47 @@
+{% extends "@WebShop/base.html.twig" %}
+
+{% block main_title %}View users{% endblock %}
+
+{% block main %}
+    <div class="text-right">
+        <a href="{{ path("admin_add_user") }}" class="btn btn-success">Add new user <span
+                    class="glyphicon glyphicon-plus-sign"></span></a>
+    </div>
+    <hr>
+    <table class="table table-responsive table-striped">
+        <thead>
+        <tr>
+            <th>{{ knp_pagination_sortable(users, '#id', 'user.id') }}</th>
+            <th>{{ knp_pagination_sortable(users, 'Email', 'user.email') }}</th>
+            <th>{{ knp_pagination_sortable(users, 'Full Name', 'user.fullName') }}</th>
+            <th>{{ knp_pagination_sortable(users, 'Funds', 'user.funds') }}</th>
+            <th>Roles</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.fullName }}</td>
+                <td>{{ user.funds }}</td>
+                <td>{{ user.roles|join(", ") }}</td>
+                <td>
+                    <a href="{{ path("admin_edit_user", {"id": user.id}) }}" class="btn btn-warning">Edit</a>
+                </td>
+                <td>
+                    <form action="{{ path("admin_delete_user", {"id": user.id}) }}" method="post">
+                        <button class="btn btn-danger delete-item" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="navigation text-center">
+        {{ knp_pagination_render(users) }}
+    </div>
+
+{% endblock %}

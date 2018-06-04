@@ -1,0 +1,34 @@
+services:
+    web_shop.security.login_form_authenticator:
+        class: WebShopBundle\Security\LoginFormAuthenticator
+        autowire: true
+        calls:
+            - [createAuthenticatedToken, ['@security.user.provider.in_memory.user', '@?']]
+            - [getUser, ['@?', '@security.user.provider.ldap']]
+            - [checkCredentials, ['@?', '@security.user.provider.in_memory.user']]
+
+    web_shop.doctrine.hash_password_listener:
+        class: WebShopBundle\Doctrine\HashPasswordListener
+        autowire: true
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    web_shop.service.order_service:
+        class: WebShopBundle\Service\OrderService
+        autowire: true
+
+    web_shop.service.promotions_service:
+        class: WebShopBundle\Service\PromotionsService
+        autowire: true
+
+    # Twig
+    web_shop.twig.web_shop_extension:
+        class: WebShopBundle\Twig\WebShopExtension
+        calls:
+            - [initRuntime, ['@twig']]
+        tags:
+            - { name: twig.extension }
+
+    web_shop.service.cart_service:
+        class: WebShopBundle\Service\CartService
+        autowire: true

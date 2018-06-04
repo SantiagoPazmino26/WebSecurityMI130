@@ -1,0 +1,99 @@
+WebShopBundle\Entity\ProductCategory:
+    productCategory_1:
+        name: Books
+    productCategory_2:
+        name: Games
+    productCategory_3:
+        name: TV
+    productCategory_4:
+        name: Photo
+    productCategory_5:
+        name: Auto Accessoirs
+    productCategory_6:
+        name: Computers
+    productCategory_7:
+        name: Smart Phones
+    productCategory_8:
+        name: Notebooks
+    productCategory_9:
+        name: Audio
+    productCategory_11:
+        name: Medicine
+    productCategory_12:
+        name: Health
+    productCategory_13:
+        name: Music
+    productCategory_14:
+        name: CDs
+    productCategory_15:
+        name: Videos
+    productCategory_16:
+        name: XXX
+    productCategory_17:
+        name: Other
+    productCategory_18:
+        name: Software
+
+WebShopBundle\Entity\Promotion:
+    promotion_{1..5}:
+        name: <firstName()> Promo
+        discount: <numberBetween(1, 99)>
+        start_date: <dateTimeBetween("-7 day", "+2 days")>
+        end_date: <dateTimeBetween("+6 day", "+60 days")>
+
+WebShopBundle\Entity\Product:
+    product_{1..50}:
+        name: <product()> (<current()>)
+        description: <paragraph()>
+        imageName: <productImage()>
+        quantity: <numberBetween(0, 99)>
+        price: <randomFloat(2, 0.99, 499)>
+        category: '@productCategory_*'
+        updatedAt: <datetime()>
+    product_50:
+        promotions: "3x @promotion_*"
+    product_5:
+        promotions: ["@promotion_*"]
+    product_10:
+        promotions: ["@promotion_*"]
+    product_{30..45}:
+        promotions: "2x @promotion_*"
+
+WebShopBundle\Entity\Role:
+    role_1:
+        name: ROLE_USER
+    role_2:
+        name: ROLE_EDITOR
+    role_3:
+        name: ROLE_ADMIN
+
+WebShopBundle\Entity\User:
+    user_1:
+        email: admin@videlin.eu
+        plainPassword: 123
+        fullName: Admin Account
+        funds: <randomFloat(2, 5000, 100000)>
+        role: ["@role_3", "@role_2"]
+        products: ["@product_1", "@product_2", "@product_3", "@product_4"]
+    user_2:
+        email: editor@videlin.eu
+        plainPassword: 123
+        fullName: "Editor Account"
+        funds: <randomFloat(2, 100, 1500)>
+        role: ["@role_2"]
+        products: ["@product_*"]
+    user_{3..10}:
+        email: <email()>
+        fullName: <name()>
+        plainPassword: 123
+        funds: <randomFloat(2, 100, 1000)>
+        role: ["@role_1"]
+        products: ["@product_*"]
+
+WebShopBundle\Entity\Review:
+    review_{1..15}:
+        text: <paragraph()>
+        rating: <numberBetween(1,5)>
+        date: <dateTimeBetween("-6 months", "now")>
+        user: "@user_*"
+        product: "@product_*"

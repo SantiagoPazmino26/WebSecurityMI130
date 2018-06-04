@@ -1,0 +1,49 @@
+{% extends '@WebShop/base.html.twig' %}
+
+{% block main_title %}All active promotions{% endblock %}
+
+{% block main %}
+    {% if promotions|length > 0 %}
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(promotions) }}
+        </div>
+
+        <table class="table table-responsive table-striped">
+            <thead>
+            <tr>
+                <th>{{ knp_pagination_sortable(promotions, '#id', 'promotion.id') }}</th>
+                <th>{{ knp_pagination_sortable(promotions, 'Name', 'promotion.name') }}</th>
+                <th>{{ knp_pagination_sortable(promotions, 'Discount', 'promotion.discount') }}</th>
+                <th>{{ knp_pagination_sortable(promotions, 'Start Date', 'promotion.startDate') }}</th>
+                <th>{{ knp_pagination_sortable(promotions, 'End Date', 'promotion.endDate') }}</th>
+                <th>Products</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for index,promo in promotions %}
+                <tr>
+                    <td>{{ promo.id }}</td>
+                    <td>
+                        <a href="{{ path("promotions_view", {"id": promo.id}) }}">
+                            {{ promo.name }}
+                        </a>
+                    </td>
+                    <td>-{{ promo.discount }}%</td>
+                    <td>{{ promo.startDate|date }}</td>
+                    <td>{{ promo.endDate|date }}</td>
+                    <td>{{ promo.productsWithActivePromo|length }}</td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(promotions) }}
+        </div>
+
+    {% else %}
+        <p>Sorry, no active promotions at this time. :(</p>
+    {% endif %}
+{% endblock %}

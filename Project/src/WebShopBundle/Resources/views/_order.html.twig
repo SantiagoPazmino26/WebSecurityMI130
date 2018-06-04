@@ -1,0 +1,30 @@
+<div class="panel panel-info">
+    <div class="panel-heading">Order #: {{ order.id }} created on {{ order.date|date }}</div>
+    <div class="panel-body">
+        <label class="label label-{{ order.verified ? "success" : "warning" }}">
+            Status: {{ order.verified ? "Complted" : "Pending" }}
+        </label>
+        <h3 class="h4">Products:</h3>
+        <table class="table-responsive table table-bordered">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Sell</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for key,product in order.products %}
+                <tr>
+                    <td>{{ product }}</td>
+                    <td><a href="{{ path("sell_user_product", {slug: key}) }}" class="btn btn-primary">Sell</a></td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td class="text-right" colspan="2">
+                    <strong>Total: €{{ order.total }}</strong>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
