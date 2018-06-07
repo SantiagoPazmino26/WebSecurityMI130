@@ -16,7 +16,6 @@ use WebShopBundle\Entity\User;
  * @package WebShopBundle\Controller
  * @Route("/cart")
  *
- * @Security(expression="is_granted('IS_AUTHENTICATED_FULLY')")
  */
 class CartController extends Controller
 {

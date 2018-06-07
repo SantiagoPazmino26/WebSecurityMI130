@@ -1,6 +1,5 @@
 imports:
     - { resource: parameters.yml }
-    - { resource: security.yml }
     - { resource: services.yml }
     - { resource: "@WebShopBundle/Resources/config/services.yml" }
 
@@ -42,6 +41,8 @@ twig:
     strict_variables: '%kernel.debug%'
     form_themes:
         - bootstrap_3_layout.html.twig
+    globals:
+      sec_user: null
 
 # Doctrine Configuration
 doctrine:

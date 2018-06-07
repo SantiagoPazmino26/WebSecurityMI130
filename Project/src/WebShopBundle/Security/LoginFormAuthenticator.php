@@ -8,9 +8,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
-use Symfony\Component\Security\Core\Security;
+use WebShopBundle\Security\Encoder;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Sec
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use WebShopBundle\Entity\User;
@@ -28,13 +28,13 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      * LoginFormAuthenticator constructor.
      * @param FormFactoryInterface $formFactory
      * @param EntityManagerInterface $entityManager
-     * @param UserPasswordEncoder $passwordEncoder
+     * @param Encoder $passwordEncoder
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         EntityManagerInterface $entityManager,
         RouterInterface $router,
-        UserPasswordEncoder $passwordEncoder,
+        Encoder $passwordEncoder,
         ContainerInterface $container)
     {
         $this->formFactory = $formFactory;

@@ -24,12 +24,7 @@ class AddProductForm extends AbstractType
                 'required' => true
             ])
             ->add("quantity")
-            ->add("price", MoneyType::class)
-            ->add("promotions", EntityType::class, [
-                "class" => 'WebShopBundle\Entity\Promotion',
-                "multiple" => true,
-                "expanded" => true
-            ]);
+            ->add("price", MoneyType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

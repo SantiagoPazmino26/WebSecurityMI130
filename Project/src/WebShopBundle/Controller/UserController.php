@@ -43,9 +43,6 @@ class UserController extends Controller
      */
     public function registerProcessAction(Request $request)
     {
-        if ($this->get("security.authorization_checker")->isGranted("ROLE_USER")) {
-            return $this->redirectToRoute("homepage");
-        }
 
         $user = new User();
         $em = $this->getDoctrine()->getManager();
@@ -80,7 +77,6 @@ class UserController extends Controller
 
     /**
      * @Route("/profile", name="user_profile")
-     * @Security(expression="is_granted('IS_AUTHENTICATED_FULLY')")
      */
     public function profileAction()
     {
@@ -94,7 +90,6 @@ class UserController extends Controller
 
     /**
      * @Route("/profile/edit", name="user_profile_edit")
-     * @Security(expression="is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @return Response

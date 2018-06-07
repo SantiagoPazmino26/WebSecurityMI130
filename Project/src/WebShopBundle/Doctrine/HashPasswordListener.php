@@ -4,14 +4,14 @@ namespace WebShopBundle\Doctrine;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
+use WebShopBundle\Security\Encoder;
 use WebShopBundle\Entity\User;
 
 class HashPasswordListener implements EventSubscriber
 {
     private $userPasswordEncoder;
 
-    public function __construct(UserPasswordEncoder $userPasswordEncoder)
+    public function __construct(Encoder $userPasswordEncoder)
     {
         $this->userPasswordEncoder = $userPasswordEncoder;
     }
