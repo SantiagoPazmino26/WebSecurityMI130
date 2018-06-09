@@ -18,7 +18,7 @@
                 {% endblock %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                {% if app.session.user is defined %}
+                {% if app.session.get('user') is not null %}
                     {% block nav_user %}
                         <li><a href="{{ path("user_profile") }}">My Profile <span
                                         class="glyphicon glyphicon-user"></span></a></li>
@@ -26,9 +26,6 @@
                                         class="glyphicon glyphicon-inbox"></span></a></li>
                         <li><a href="{{ path("user_cart") }}">Cart <span
                                         class="glyphicon glyphicon-shopping-cart"></span>
-                                {% if app.user.products|length > 0 %}
-                                    ({{ app.user.products|length }} Products)
-                                {% endif %}
                             </a></li>
                         <li><a href="{{ path("security_logout") }}">Logout <span
                                         class="glyphicon glyphicon-arrow-right"></span></a></li>

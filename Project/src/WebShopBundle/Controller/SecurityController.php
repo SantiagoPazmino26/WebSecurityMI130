@@ -9,6 +9,8 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use WebShopBundle\Form\LoginForm;
+use WebShopBundle\Entity\User;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class SecurityController extends Controller
 {
@@ -18,6 +20,7 @@ class SecurityController extends Controller
      */
     public function loginAction(Request $request)
     {
+        $encoderService = $this->get("web_shop.security.encoder");
 
         $form = $this->createForm(LoginForm::class);
 
@@ -28,22 +31,31 @@ class SecurityController extends Controller
 
             $username = $data["_username"];
 
-            $user = $this->entityManager->getRepository(User::class)
+            $user = $this->getDoctrine()->getRepository(User::class)
                 ->findOneBy([
                     "email" => $username
                 ]);
 
-            $review->setDate(new \DateTime());
-            $review->setUser($this->getUser());
-            $review->setProduct($product);
+            $password = $data["_password"];
+            if($user){
+                if ($encoderService->isPasswordValid($user->getPassword(), $password,1234)) {
+                    $this->container->get("session")->set('user',$user);
+                    $cookie = new Cookie(
+                        'security_cookie',	// Cookie name.
+                        $user->getFullName(),	// Cookie value.
+                        time() + (300)	// Expires 5 minutes
+                    );
+                    $res = new Response();
+                    $res->headers->setCookie( $cookie );
+                    $res->send();
+                    $this->container->get("session")->getFlashBag()->add("success", "Logged in successfully!");
+                    return $this->redirectToRoute("homepage");
+                }
+            }
+            $this->addFlash("success", "Error with the credentials!");
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($review);
-            $em->flush();
+            return $this->redirectToRoute("security_login");
 
-            $this->addFlash("success", "Review added!");
-
-            return $this->redirectToRoute("products_view_product", ["slug" => $product->getSlug()]);
         }
 
         return $this->render("@WebShop/security/login.html.twig", [
@@ -51,31 +63,15 @@ class SecurityController extends Controller
         ]);
     }
 
-    /**
-     * @Route("/login/", name="login_post")
-     * @Method("POST")
-     * @return RedirectResponse
-     */
-    public function loginPostAction()
-    {
-        $cartService = $this->get("web_shop.service.cart_service");
-        if (!$cartService->addProductToCart($this->getUser(), $product)) {
-            return $this->redirectToRoute("homepage");
-        }
-
-        return $this->redirectToRoute("homepage");
-    }
-
-
-    /**
+     /**
      * @Route("/logout", name="security_logout")
      * @Method("GET")
      */
     public function logoutAction()
     {
-        if (!$this->get("security.authorization_checker")->isGranted("ROLE_USER")) {
-            return $this->redirectToRoute("homepage");
-        }
+
+        $this->container->get("session")->clear();
+        return $this->redirectToRoute("homepage");
 
         throw new \Exception("This page should not be reached.");
     }

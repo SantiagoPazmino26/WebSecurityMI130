@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use WebShopBundle\Entity\Product;
 use WebShopBundle\Entity\User;
@@ -24,14 +25,14 @@ class CartController extends Controller
      *
      * @return Response
      */
-    public function cartAction()
+    public function cartAction(Request $request)
     {
         /** @var User $user */
-        $user = $this->getUser();
+        $currentUser = $this->container->get("session")->get('user');
         $cartService = $this->get("web_shop.service.cart_service");
         return $this->render("@WebShop/cart/index.html.twig", [
-            "cart" => $user->getProducts(),
-            "total" => $cartService->getProductsTotal($user->getProducts())
+            "cart" => $currentUser->getProducts(),
+            "total" => $cartService->getProductsTotal($currentUser->getProducts())
         ]);
     }
 

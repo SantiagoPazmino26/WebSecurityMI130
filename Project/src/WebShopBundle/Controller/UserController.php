@@ -23,7 +23,7 @@ class UserController extends Controller
      */
     public function registerAction()
     {
-        if ($this->get("security.authorization_checker")->isGranted("ROLE_USER")) {
+        if ($this->container->get("session")->get('user') != null) {
             return $this->redirectToRoute("homepage");
         }
 
@@ -61,13 +61,8 @@ class UserController extends Controller
             $em->persist($user);
             $em->flush();
 
-            return $this->get("security.authentication.guard_handler")
-                ->authenticateUserAndHandleSuccess(
-                    $user,
-                    $request,
-                    $this->get("web_shop.security.login_form_authenticator"),
-                    "main"
-                );
+            $this->container->get("session")->getFlashBag()->add("success", "Registered successfully!");
+            return $this->redirectToRoute("homepage");
         }
 
         return $this->render("@WebShop/user/register.html.twig", [
@@ -76,12 +71,14 @@ class UserController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @return Response
      * @Route("/profile", name="user_profile")
      */
-    public function profileAction()
+    public function profileAction(Request $request)
     {
         /** @var User $currentUser */
-        $currentUser = $this->getUser();
+        $currentUser = $this->container->get("session")->get('user');
 
         return $this->render("@WebShop/user/profile.html.twig", [
             "user" => $currentUser
@@ -97,7 +94,7 @@ class UserController extends Controller
     public function editProfileAction(Request $request)
     {
         /** @var User $currentUser */
-        $currentUser = $this->getUser();
+        $currentUser = $this->container->get("session")->get('user');
 
         $form = $this->createForm(ProfileEditForm::class, $currentUser);
         $form->handleRequest($request);

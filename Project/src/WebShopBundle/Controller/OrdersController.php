@@ -16,7 +16,6 @@ use WebShopBundle\Entity\User;
  * @package WebShopBundle\Controller
  *
  * @Route("/orders")
- * @Security(expression="is_granted('IS_AUTHENTICATED_FULLY')")
  */
 class OrdersController extends Controller
 {
@@ -28,7 +27,7 @@ class OrdersController extends Controller
     public function listOrdersAction(Request $request)
     {
         /** @var User $currentUser */
-        $currentUser = $this->getUser();
+        $currentUser = $this->container->get("session")->get('user');
 
         $pager = $this->get('knp_paginator');
         /** @var ProductsOrder[]|ArrayCollection $orders */
@@ -36,7 +35,7 @@ class OrdersController extends Controller
             $this->getDoctrine()->getRepository(ProductsOrder::class)
                 ->findByQueryBuilder()
                 ->where("products_order.user = :user")
-                ->setParameter("user", $currentUser)
+                ->setParameter("user", $currentUser->getUsername())
                 ->orderBy("products_order.date", "desc"),
             $request->query->getInt('page', 1),
             5

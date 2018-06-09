@@ -1,7 +1,4 @@
 services:
-    web_shop.security.login_form_authenticator:
-        class: WebShopBundle\Security\LoginFormAuthenticator
-        autowire: true
 
     web_shop.security.encoder:
             class: WebShopBundle\Security\Encoder

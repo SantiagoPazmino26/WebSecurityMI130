@@ -42,6 +42,7 @@ class Encoder extends BasePasswordEncoder
      */
     public function isPasswordValid($encoded, $raw, $salt)
     {
+
         if ($this->isPasswordTooLong($raw)) {
             return false;
         }
@@ -75,6 +76,6 @@ class Encoder extends BasePasswordEncoder
             return $password;
         }
 
-        return $salt.$password;
+        return $password.$salt;
     }
 }
