@@ -47,6 +47,13 @@ class SecurityController extends Controller
                         $res = new Response();
                         $res->headers->setCookie( $cookie );
                         $res->send();
+
+                        foreach ($user->getRoles() as $role){
+                            if($role->getName()=='ROLE_EDITOR'){
+                                $this->container->get("session")->set('role','Editor');
+                            }
+                        }
+
                         $this->container->get("session")->getFlashBag()->add("success", "Logged in successfully!");
                         return $this->redirectToRoute("homepage");
                     }

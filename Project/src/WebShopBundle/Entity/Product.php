@@ -96,14 +96,6 @@ class Product
     private $users;
 
     /**
-     * @ORM\OneToMany(targetEntity="WebShopBundle\Entity\Review", mappedBy="product")
-     * @ORM\OrderBy({"date" = "DESC"})
-     *
-     * @var Review[]|ArrayCollection $reviews
-     */
-    private $reviews;
-
-    /**
      * @ORM\Column(nullable=false, type="string", unique=true)
      * @Gedmo\Slug(fields={"name"})
      * @var string $slug
@@ -118,8 +110,6 @@ class Product
     public function __construct()
     {
         $this->users = new ArrayCollection();
-        $this->promotions = new ArrayCollection();
-        $this->reviews = new ArrayCollection();
     }
 
     public function getId()
@@ -250,11 +240,6 @@ class Product
         $this->users = $users;
 
         return $this;
-    }
-
-    public function getReviews()
-    {
-        return $this->reviews;
     }
 
     public function getSlug()

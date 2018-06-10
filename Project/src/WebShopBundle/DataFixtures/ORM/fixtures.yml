@@ -34,13 +34,6 @@ WebShopBundle\Entity\ProductCategory:
     productCategory_18:
         name: Software
 
-WebShopBundle\Entity\Promotion:
-    promotion_{1..5}:
-        name: <firstName()> Promo
-        discount: <numberBetween(1, 99)>
-        start_date: <dateTimeBetween("-7 day", "+2 days")>
-        end_date: <dateTimeBetween("+6 day", "+60 days")>
-
 WebShopBundle\Entity\Product:
     product_{1..50}:
         name: <product()> (<current()>)
@@ -89,11 +82,3 @@ WebShopBundle\Entity\User:
         funds: <randomFloat(2, 100, 1000)>
         role: ["@role_1"]
         products: ["@product_*"]
-
-WebShopBundle\Entity\Review:
-    review_{1..15}:
-        text: <paragraph()>
-        rating: <numberBetween(1,5)>
-        date: <dateTimeBetween("-6 months", "now")>
-        user: "@user_*"
-        product: "@product_*"

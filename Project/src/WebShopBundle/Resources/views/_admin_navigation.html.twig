@@ -1,12 +1,12 @@
-{% if sec_user %}
-    <nav class="nav nav-tabs hidden-xs">
-        <ul class="nav navbar-nav">
-            {% block nav_admin %}
-                <li><a href="{{ path("admin_list_products") }}">Edit Products</a></li>
-                <li><a href="{{ path("admin_list_categories") }}">Edit Categories</a></li>
-                <li><a href="{{ path('admin_list_orders') }}">Edit Orders</a></li>
-                <li><a href="{{ path("admin_list_users") }}">Edit Users</a></li>
-            {% endblock %}
-        </ul>
-    </nav>
+{% if app.session.get('role') is not null %}
+            <nav class="nav nav-tabs hidden-xs">
+                <ul class="nav navbar-nav">
+                    {% block nav_admin %}
+                        <li><a href="{{ path("admin_list_products") }}">Edit Products</a></li>
+                        <li><a href="{{ path("admin_list_categories") }}">Edit Categories</a></li>
+                        <li><a href="{{ path('admin_list_orders') }}">Edit Orders</a></li>
+                        <li><a href="{{ path("admin_list_users") }}">Edit Users</a></li>
+                    {% endblock %}
+                </ul>
+            </nav>
 {% endif %}
