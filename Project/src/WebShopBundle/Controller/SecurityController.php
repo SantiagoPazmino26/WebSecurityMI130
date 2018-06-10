@@ -26,40 +26,43 @@ class SecurityController extends Controller
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var Review $review */
-            $data = $form->getData();
-
-            $username = $data["_username"];
-
-            $user = $this->getDoctrine()->getRepository(User::class)
-                ->findOneBy([
-                    "email" => $username
-                ]);
-
-            $password = $data["_password"];
-            if($user){
-                if ($encoderService->isPasswordValid($user->getPassword(), $password,1234)) {
-                    $this->container->get("session")->set('user',$user);
-                    $cookie = new Cookie(
-                        'security_cookie',	// Cookie name.
-                        $user->getFullName(),	// Cookie value.
-                        time() + (300)	// Expires 5 minutes
-                    );
-                    $res = new Response();
-                    $res->headers->setCookie( $cookie );
-                    $res->send();
-                    $this->container->get("session")->getFlashBag()->add("success", "Logged in successfully!");
-                    return $this->redirectToRoute("homepage");
+            $csrf_token = $this->container->get("session")->get("csrf_token");
+            $token = $request->request->get('csrf_token');
+            if($csrf_token === $token){
+                $data = $form->getData();
+                $username = $data["_username"];
+                $user = $this->getDoctrine()->getRepository(User::class)
+                    ->findOneBy([
+                        "email" => $username
+                    ]);
+                $password = $data["_password"];
+                if($user){
+                    if ($encoderService->isPasswordValid($user->getPassword(), $password,$this->container->getParameter('salt'))) {
+                        $this->container->get("session")->set('user',$user);
+                        $cookie = new Cookie(
+                            'security_cookie',	// Cookie name.
+                            $user->getFullName(),	// Cookie value.
+                            time() + (300)	// Expires 5 minutes
+                        );
+                        $res = new Response();
+                        $res->headers->setCookie( $cookie );
+                        $res->send();
+                        $this->container->get("session")->getFlashBag()->add("success", "Logged in successfully!");
+                        return $this->redirectToRoute("homepage");
+                    }
                 }
+                $this->addFlash("success", "Error with the credentials!");
+                return $this->redirectToRoute("security_login");
+            }else{
+                $this->addFlash("success", "Error with the token!");
+                return $this->redirectToRoute("security_login");
             }
-            $this->addFlash("success", "Error with the credentials!");
-
-            return $this->redirectToRoute("security_login");
-
         }
-
+        $csrf_token = md5(openssl_random_pseudo_bytes(32));
+        $this->container->get("session")->set('csrf_token',$csrf_token);
         return $this->render("@WebShop/security/login.html.twig", [
-            "login_form" => $form->createView()
+            "login_form" => $form->createView(),
+            "csrf_token" => $csrf_token
         ]);
     }
 

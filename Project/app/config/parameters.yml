@@ -6,3 +6,4 @@ parameters:
     database_user: root
     database_password: santiago
     secret: ThisTokenIsNotSoSecretChangeIt
+    salt: 1234

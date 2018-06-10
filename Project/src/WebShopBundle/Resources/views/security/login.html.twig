@@ -8,7 +8,7 @@
 
     {{ form_row(login_form._username) }}
     {{ form_row(login_form._password) }}
-
+    <input type="hidden" name="csrf_token" value="{{csrf_token}}">
     <button type="submit" class="btn btn-success" formnovalidate>Login <span class="glyphicon glyphicon-lock"></span>
     </button>
 
