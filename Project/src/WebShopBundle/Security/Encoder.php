@@ -13,16 +13,16 @@ use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 
 class Encoder extends BasePasswordEncoder
 {
-    private $ignorePasswordCase;
+    private $salt;
 
     /**
      * Constructor.
      *
-     * @param bool $ignorePasswordCase Compare password case-insensitive
+     * @param string $salt
      */
-    public function __construct($ignorePasswordCase = false)
+    public function __construct($salt)
     {
-        $this->ignorePasswordCase = $ignorePasswordCase;
+        $this->salt = $salt;
     }
 
     /**
@@ -53,11 +53,8 @@ class Encoder extends BasePasswordEncoder
             return false;
         }
 
-        if (!$this->ignorePasswordCase) {
-            return $this->comparePasswords($encoded, $pass2);
-        }
 
-        return $this->comparePasswords(strtolower($encoded), strtolower($pass2));
+        return $this->comparePasswords($encoded, $pass2);
     }
 
     /**
@@ -73,7 +70,7 @@ class Encoder extends BasePasswordEncoder
     protected function mergePasswordAndSalt($password, $salt)
     {
         if (empty($salt)) {
-            return $password;
+            $salt = $this->salt;
         }
 
         return $password.$salt;

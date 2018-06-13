@@ -93,7 +93,6 @@ class ProductsController extends Controller
 
     /**
      * @Route("/{id}/review", name="products_add_review")
-     * @Security(expression="is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Product $product
      * @param Request $request

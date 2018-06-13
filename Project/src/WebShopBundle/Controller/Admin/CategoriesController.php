@@ -4,7 +4,6 @@ namespace WebShopBundle\Controller\Admin;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +15,6 @@ use WebShopBundle\Form\AddEditCategoryForm;
  * @package WebShopBundle\Controller
  *
  * @Route("/admin")
- * @Security("is_granted('ROLE_EDITOR')")
  */
 class CategoriesController extends Controller
 {

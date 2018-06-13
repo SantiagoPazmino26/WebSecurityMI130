@@ -1,8 +1,10 @@
 services:
 
     web_shop.security.encoder:
+            arguments:
+                $salt: '%salt%'
             class: WebShopBundle\Security\Encoder
-            autowire: true
+
 
     web_shop.doctrine.hash_password_listener:
         class: WebShopBundle\Doctrine\HashPasswordListener

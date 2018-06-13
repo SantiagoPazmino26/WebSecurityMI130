@@ -3,7 +3,6 @@
 namespace WebShopBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +13,6 @@ use WebShopBundle\Form\SellProductForm;
  * Class UserProductsController
  * @package WebShopBundle\Controller
  *
- * @Security(expression="is_granted('IS_AUTHENTICATED_FULLY')")
  */
 class UserProductsController extends Controller
 {
