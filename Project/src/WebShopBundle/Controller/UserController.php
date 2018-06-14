@@ -77,10 +77,10 @@ class UserController extends Controller
     public function profileAction(Request $request)
     {
         /** @var User $currentUser */
-        $currentUser = $this->container->get("session")->get('user');
+        $user = $this->getDoctrine()->getManager()->merge($this->container->get("session")->get('user'));
 
         return $this->render("@WebShop/user/profile.html.twig", [
-            "user" => $currentUser
+            "user" => $user
         ]);
     }
 
@@ -93,18 +93,18 @@ class UserController extends Controller
     public function editProfileAction(Request $request)
     {
         /** @var User $currentUser */
-        $currentUser = $this->container->get("session")->get('user');
+        $user = $this->getDoctrine()->getManager()->merge($this->container->get("session")->get('user'));
 
-        $form = $this->createForm(ProfileEditForm::class, $currentUser);
+        $form = $this->createForm(ProfileEditForm::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($currentUser);
+            $em->persist($user);
             $em->flush();
 
             $this->addFlash("success", "Profile updated!");
-
+            $this->container->get("session")->set('user',$user);
             return $this->redirectToRoute("user_profile");
         }
 

@@ -27,7 +27,7 @@ class OrdersController extends Controller
     public function listOrdersAction(Request $request)
     {
         /** @var User $currentUser */
-        $currentUser = $this->container->get("session")->get('user');
+        $user = $this->getDoctrine()->getManager()->merge($this->container->get("session")->get('user'));
 
         $pager = $this->get('knp_paginator');
         /** @var ProductsOrder[]|ArrayCollection $orders */
@@ -35,12 +35,12 @@ class OrdersController extends Controller
             $this->getDoctrine()->getRepository(ProductsOrder::class)
                 ->findByQueryBuilder()
                 ->where("products_order.user = :user")
-                ->setParameter("user", $currentUser->getUsername())
+                ->setParameter("user", $user->getUsername())
                 ->orderBy("products_order.date", "desc"),
             $request->query->getInt('page', 1),
             5
         );
-
+        $this->container->get("session")->set('user',$user);
         return $this->render("@WebShop/orders/list.html.twig", [
             "orders" => $orders
         ]);

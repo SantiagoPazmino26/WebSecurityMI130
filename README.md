@@ -43,12 +43,18 @@ Vishnu
 Sai keerthi
 Avez
 
-#Compiling Process
+Installation
+------------------------
+Requirements: **composer**, **MySql server**
 
-After downloading the source code, first ru composer to download all dependencies of the project.
---For info on how to install composer see this webpage: https://getcomposer.org/doc/00-intro.md
-
-Run the following composer command to install dependencies
-
-php composer.phar install
+1. Download/Clone source from this repository
+2. `cd` into the project folder
+3. Execute commands: 
+    1. `composer install`
+    2. `execute dump on sql database`
+    3. `modify databse connection string on parameters.yml file`
+    2. `php bin/console server:run`
+4. Open `http://127.0.0.1:8000` in your browser.
+5. Account login details:
+    * Admin account: `admin@webshop.eu`, pass: `123`
 

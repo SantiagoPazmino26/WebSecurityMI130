@@ -90,36 +90,4 @@ class ProductsController extends Controller
             "reviews" => $reviews
         ]);
     }
-
-    /**
-     * @Route("/{id}/review", name="products_add_review")
-     *
-     * @param Product $product
-     * @param Request $request
-     * @return Response
-     */
-    public function addReviewAction(Product $product, Request $request)
-    {
-        $form = $this->createForm(ReviewForm::class);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var Review $review */
-            $review = $form->getData();
-
-            $review->setDate(new \DateTime());
-            $review->setUser($this->getUser());
-            $review->setProduct($product);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($review);
-            $em->flush();
-
-            $this->addFlash("success", "Review added!");
-
-            return $this->redirectToRoute("products_view_product", ["slug" => $product->getSlug()]);
-        }
-        return $this->render("@WebShop/products/add_review.html.twig", [
-            "add_form" => $form->createView()
-        ]);
-    }
 }

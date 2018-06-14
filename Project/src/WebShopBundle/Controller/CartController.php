@@ -28,11 +28,12 @@ class CartController extends Controller
     public function cartAction(Request $request)
     {
         /** @var User $user */
-        $currentUser = $this->container->get("session")->get('user');
+        $user = $this->getDoctrine()->getManager()->merge($this->container->get("session")->get('user'));
         $cartService = $this->get("web_shop.service.cart_service");
+        $this->container->get("session")->set('user',$user);
         return $this->render("@WebShop/cart/index.html.twig", [
-            "cart" => $currentUser->getProducts(),
-            "total" => $cartService->getProductsTotal($currentUser->getProducts())
+            "cart" => $user->getProducts(),
+            "total" => $cartService->getProductsTotal($user->getProducts())
         ]);
     }
 
@@ -61,10 +62,12 @@ class CartController extends Controller
     public function addToCartAction(Product $product)
     {
         $cartService = $this->get("web_shop.service.cart_service");
-        if (!$cartService->addProductToCart($this->getUser(), $product)) {
+
+        $user = $this->getDoctrine()->getManager()->merge($this->container->get("session")->get('user'));
+        if (!$cartService->addProductToCart($user, $product)) {
             return $this->redirectToRoute("homepage");
         }
-
+        $this->container->get("session")->set('user',$user);
         return $this->redirectToRoute("user_cart");
     }
 

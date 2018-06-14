@@ -26,7 +26,7 @@ class UserProductsController extends Controller
     {
         $form = $this->createForm(SellProductForm::class, $product);
         $form->handleRequest($request);
-
+        $user = $this->getDoctrine()->getManager()->merge($this->container->get("session")->get('user'));
         if ($form->isSubmitted() && $form->isValid()) {
             $newProduct = new Product();
             $newProduct->setName($product->getName());
@@ -35,7 +35,7 @@ class UserProductsController extends Controller
             $newProduct->setImageName($product->getImageName());
             $newProduct->setQuantity(1);
             $newProduct->setPrice($product->getPrice());
-            $newProduct->setSeller($this->getUser());
+            $newProduct->setSeller($user);
             $newProduct->setPromotions($product->getPromotions());
             $newProduct->setUpdatedAt(new \DateTime());
 
