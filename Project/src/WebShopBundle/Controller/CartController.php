@@ -46,7 +46,7 @@ class CartController extends Controller
     public function deleteFromCartAction(Product $product)
     {
         $cartService = $this->get("web_shop.service.cart_service");
-        $cartService->removeProductFromCart($this->getUser(), $product);
+        $cartService->removeProductFromCart($this->container->get("session")->get('user'), $product);
 
         return $this->redirectToRoute("user_cart");
     }
@@ -61,7 +61,7 @@ class CartController extends Controller
     public function addToCartAction(Product $product)
     {
         $cartService = $this->get("web_shop.service.cart_service");
-        if (!$cartService->addProductToCart($this->getUser(), $product)) {
+        if (!$cartService->addProductToCart($this->container->get("session")->get('user'), $product)) {
             return $this->redirectToRoute("homepage");
         }
 
@@ -76,7 +76,7 @@ class CartController extends Controller
     public function checkoutCartAction()
     {
         $cartService = $this->get("web_shop.service.cart_service");
-        if (!$cartService->checkoutCart($this->getUser())) {
+        if (!$cartService->checkoutCart($this->container->get("session")->get('user'))) {
             return $this->redirectToRoute("user_cart");
         }
 
