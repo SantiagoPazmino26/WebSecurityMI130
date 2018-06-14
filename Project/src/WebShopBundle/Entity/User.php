@@ -58,7 +58,7 @@ class User implements UserInterface
      *
      * @Assert\Count(min="1")
      *
-     * @ORM\ManyToMany(targetEntity="WebShopBundle\Entity\Role", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="WebShopBundle\Entity\Role", inversedBy="users", cascade={"persist"})
      * @ORM\JoinTable(name="users_roles")
      */
     private $roles;
