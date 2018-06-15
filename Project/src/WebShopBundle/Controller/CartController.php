@@ -82,7 +82,7 @@ class CartController extends Controller
         if (!$cartService->checkoutCart($user) {
             return $this->redirectToRoute("user_cart");
         }
-
+        $this->container->get("session")->set('user',$user);
         return $this->redirectToRoute("homepage");
     }
 }
