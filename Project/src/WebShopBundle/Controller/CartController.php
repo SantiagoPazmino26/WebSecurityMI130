@@ -79,7 +79,7 @@ class CartController extends Controller
     {
         $cartService = $this->get("web_shop.service.cart_service");
         $user = $this->getDoctrine()->getManager()->merge($this->container->get("session")->get('user'));
-        if (!$cartService->checkoutCart($user) {
+        if (!$cartService->checkoutCart($user)) {
             return $this->redirectToRoute("user_cart");
         }
         $this->container->get("session")->set('user',$user);
